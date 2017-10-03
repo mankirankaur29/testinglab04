@@ -1,6 +1,14 @@
+//MAPD713 Enterprise Technologies for mobile platforms
+// Mankiran kaur - 29/09/2017
+
+//load modules
 var SERVER_NAME = 'user-api'
 var PORT = 3000;
 var HOST = '127.0.0.1';
+var http = require('http');
+var url = require('url');
+
+//setting counters
 var postcounter = 0;
 var getcounter = 0;
 
@@ -8,16 +16,18 @@ var getcounter = 0;
 var restify = require('restify')
 
   // Get a persistence engine for the users
-  , usersSave = require('save')('users')
+  , productsSave = require('save')('products')
 
   // Create the restify server
   , server = restify.createServer({ name: SERVER_NAME})
 
   server.listen(PORT, HOST, function () {
-  console.log('Server %s listening at %s', server.name, server.url)
+  console.log('Server is listening at - http://'+ HOST + ":" +PORT)
+  console.log('Endpoints: http://'+ HOST + ':' + PORT + '/sendGet method:GET'  );
+  console.log('Endpoints: http://'+ HOST + ':' + PORT + '/sendPost  method:POSt' );
   console.log('Resources:')
-  console.log(' /users')
-  console.log(' /users/:id')  
+  console.log(' /products')
+  console.log(' /products/:id')  
 })
 
 server
@@ -28,30 +38,32 @@ server
   .use(restify.bodyParser())
 
 
-// Get all users in the system
+//---------------------------Get all products ------------------------//
 server.get('/sendGet', function (req, res, next) {
 
+  console.log('>sendGet: received request');
   console.log("Processed Request Count" + ++getcounter);
   // Find every entity within the given collection
-  usersSave.find({}, function (error, users) {
+  productsSave.find({}, function (error, products) {
     
     // Return all of the users in the system
-    res.send(users)
+    res.send(products)
   })
 })
 
-// Get a single user by their user id
-server.get('/users/:id', function (req, res, next) {
+
+//------------------ Getting a single product by their user id -------------------//
+server.get('/sendGet/:id', function (req, res, next) {
 
   // Find a single user by their id within save
-  usersSave.findOne({ _id: req.params.id }, function (error, user) {
+  productsSave.findOne({ _id: req.params.id }, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
     if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 
-    if (user) {
+    if (product) {
       // Send the user if no issues
-      res.send(user)
+      res.send(product)
     } else {
       // Send 404 header if the user doesn't exist
       res.send(404)
@@ -59,9 +71,11 @@ server.get('/users/:id', function (req, res, next) {
   })
 })
 
-// Create a new user
+
+//------------------------Creating a new product --------------------------------//
 server.post('/sendPost', function (req, res, next) {
   //request counter showing on the console
+  console.log('<sendPost: sending response');
   console.log("Processed post request count" +  ++postcounter);
 
   // Make sure name is defined
@@ -73,58 +87,29 @@ server.post('/sendPost', function (req, res, next) {
     // If there are any errors, pass them to next in the correct format
     return next(new restify.InvalidArgumentError('age must be supplied'))
   }
-  var newUser = {
+  var newproduct = {
 		product: req.params.product, 
 		price: req.params.price
 	}
 
 
   // Create the user using the persistence engine
-  usersSave.create( newUser, function (error, user) {
+  productsSave.create( newproduct, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
     if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 
     // Send the user if no issues
-    res.send(201, user)
+    res.send(201, product)
   })
 })
 
-// Update a user by their id
-server.put('/users/:id', function (req, res, next) {
 
-  // Make sure name is defined
-  if (req.params.name === undefined ) {
-    // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('name must be supplied'))
-  }
-  if (req.params.age === undefined ) {
-    // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('age must be supplied'))
-  }
-  
-  var newUser = {
-		_id: req.params.id,
-		name: req.params.name, 
-		age: req.params.age
-	}
-  
-  // Update the user with the persistence engine
-  usersSave.update(newUser, function (error, user) {
-
-    // If there are any errors, pass them to next in the correct format
-    if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-
-    // Send a 200 OK response
-    res.send(200)
-  })
-})
-
-// Delete user with the given id
-server.del('/users/:id', function (req, res, next) {
+// -------------Delete products with the given id-------------//
+server.del('/sendDelete/:id', function (req, res, next) {
 
   // Delete the user with the persistence engine
-  usersSave.delete(req.params.id, function (error, user) {
+  productsSave.delete(req.params.id, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
     if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
@@ -133,5 +118,16 @@ server.del('/users/:id', function (req, res, next) {
     res.send()
   })
 })
+
+
+//----------------deleting all users-------------------//
+server.del('/senddelete', function (req, res, next) {
+  
+     // reset the given collection
+     productsSave = require('save')('products')
+  
+     // Send a 200 OK response
+     res.send("All records deleted.");
+ })
 
 
