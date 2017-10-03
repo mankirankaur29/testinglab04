@@ -1,6 +1,6 @@
 //MAPD713 Enterprise Technologies for mobile platforms
 // Mankiran kaur - 29/09/2017
-//NEW COMMENT
+
 
 //load modules
 var SERVER_NAME = 'user-api'
@@ -121,6 +121,7 @@ server.del('/sendDelete/:id', function (req, res, next) {
 })
 
 
+
 //----------------deleting all users-------------------//
 server.del('/senddelete', function (req, res, next) {
   
@@ -129,6 +130,6 @@ server.del('/senddelete', function (req, res, next) {
   
      // Send a 200 OK response
      res.send("All records deleted.");
- })
+})
 
 
