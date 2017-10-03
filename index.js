@@ -1,5 +1,6 @@
 //MAPD713 Enterprise Technologies for mobile platforms
 // Mankiran kaur - 29/09/2017
+//NEW COMMENT
 
 //load modules
 var SERVER_NAME = 'user-api'
