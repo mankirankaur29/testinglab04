@@ -2,11 +2,21 @@
     "name": "UserApi",
     "version": "1.0.0",
     "description": "REST API - Users",
+
     "dependencies": {
         "restify": "4.1.1",
         "save": "2.3.0"
     },
-    "author": "zvbox",
+    "keywords": [
+        "assignment 1",
+        "MAPD713"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mankirankaur29/testinglab04"
+    },
+
+    "author": "Mankiran kaur",
 	"private": true,
 	"main": "index.js"
 }
