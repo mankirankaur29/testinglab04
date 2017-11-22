@@ -88,6 +88,7 @@ server.post('/sendPost', function (req, res, next) {
     // If there are any errors, pass them to next in the correct format
     return next(new restify.InvalidArgumentError('age must be supplied'))
   }
+
   var newproduct = {
 		product: req.params.product, 
 		price: req.params.price
@@ -100,7 +101,7 @@ server.post('/sendPost', function (req, res, next) {
     // If there are any errors, pass them to next in the correct format
     if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 
-    // Send the user if no issues
+    // Send the product if no issues
     res.send(201, product)
   })
 })
@@ -109,7 +110,7 @@ server.post('/sendPost', function (req, res, next) {
 // -------------Delete products with the given id-------------//
 server.del('/sendDelete/:id', function (req, res, next) {
 
-  // Delete the user with the persistence engine
+  // Delete the product with the persistence engine
   productsSave.delete(req.params.id, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
