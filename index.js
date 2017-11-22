@@ -1,8 +1,6 @@
 //MAPD713 Enterprise Technologies for mobile platforms
 // Mankiran kaur - 29/09/2017
 
-//testingagain//
-//testing again//
 //load modules
 var SERVER_NAME = 'user-api'
 var PORT = 3000;
