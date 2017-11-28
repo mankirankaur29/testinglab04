@@ -131,6 +131,16 @@ server.del('/senddelete', function (req, res, next) {
   
      // Send a 200 OK response and show message
      res.send("All records deleted.");
+
+
+     //actual code for deleting
+     //productsSave.deleteMany({},function(req,res,next){
+       //if(error)
+       //return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+       //send a 200 ok response
+      // res.send("all records deleted")
+     //})
+
 })
 
 
